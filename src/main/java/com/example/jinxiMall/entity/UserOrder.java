@@ -2,6 +2,8 @@ package com.example.jinxiMall.entity;
 
 import javax.persistence.*;
 import java.sql.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 public class UserOrder {
@@ -15,7 +17,12 @@ public class UserOrder {
     private String paidTime;
     private String withdrawnTime;
     private Long userId;
-    private OrderForm orderForm;
+
+    @OneToMany(cascade = CascadeType.REMOVE, fetch = FetchType.EAGER, mappedBy = "order")
+    private Set<ProductSnap> purchaseItemList = new HashSet<>();
+
+    @OneToOne(cascade = CascadeType.REMOVE, fetch = FetchType.EAGER, mappedBy = "userOrder")
+    private DeliveryForm logisticsInformation;
 
     public UserOrder() {
         this("0", "unPaid", String.valueOf(new Date(System.currentTimeMillis())), "", "", "", 1L);
@@ -102,11 +109,19 @@ public class UserOrder {
         return userId;
     }
 
-    public OrderForm getLogisticsInformation() {
-        return orderForm;
+    public Set<ProductSnap> getPurchaseItemList() {
+        return purchaseItemList;
     }
 
-    public void setLogisticsInformation(OrderForm orderForm) {
-        this.orderForm = orderForm;
+    public void setPurchaseItemList(Set<ProductSnap> purchaseItemList) {
+        this.purchaseItemList = purchaseItemList;
+    }
+
+    public DeliveryForm getLogisticsInformation() {
+        return logisticsInformation;
+    }
+
+    public void setLogisticsInformation(DeliveryForm logisticsInformation) {
+        this.logisticsInformation = logisticsInformation;
     }
 }

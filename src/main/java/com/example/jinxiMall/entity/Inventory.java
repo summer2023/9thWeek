@@ -1,14 +1,19 @@
 package com.example.jinxiMall.entity;
 
+import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
+@Entity
 public class Inventory {
     @Id
     private Long id;
     private Integer count;
     private Integer lockedCount;
+
+    @OneToOne(targetEntity = Product.class)
+    @JoinColumn(name = "id", insertable = false, updatable = false)
     private Product product;
 
     public Inventory() {

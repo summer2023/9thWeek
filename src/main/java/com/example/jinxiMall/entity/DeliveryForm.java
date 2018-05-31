@@ -12,6 +12,10 @@ public class DeliveryForm {
     private String signedTime;
     private String deliveryMan = "X师傅";
 
+    @OneToOne(targetEntity = UserOrder.class)
+    @JoinColumn(name = "orderId", insertable = false, updatable = false)
+    private UserOrder userOrder;
+
     public DeliveryForm() {
     }
 
