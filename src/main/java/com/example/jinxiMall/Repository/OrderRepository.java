@@ -12,6 +12,7 @@ import java.util.List;
 @Repository
 public interface OrderRepository extends JpaRepository<UserOrder, Long> {
     //创建新订单
+    @Transactional
     UserOrder save(UserOrder order);
 
     //根据id查找订单
@@ -19,14 +20,17 @@ public interface OrderRepository extends JpaRepository<UserOrder, Long> {
 
     //修改订单状态
     @Modifying
+    @Transactional
     @Query("update UserOrder u set u.status = ?2, u.paidTime = ?3 where u.id = ?1")
     int updateOrderStatusWithPaid(Long id, String status, String paidTime);
 
     @Modifying
+    @Transactional
     @Query("update UserOrder u set u.status = ?2, u.withdrawnTime = ?3 where u.id = ?1")
     int updateOrderStatusToWithdrawn(Long id, String status, String withdrawnTime);
 
     @Modifying
+    @Transactional
     @Query("update UserOrder u set u.status = ?2, u.finishTime = ?3 where u.id = ?1")
     int updateOrderStatusToFinished(Long id, String status, String finishTime);
 
@@ -34,3 +38,4 @@ public interface OrderRepository extends JpaRepository<UserOrder, Long> {
     List<UserOrder> findByUserId(Long userId);
 
 }
+
