@@ -11,6 +11,9 @@ public class Product {
     private String description;
     private Integer price;
 
+    @OneToOne(cascade = CascadeType.REMOVE, fetch = FetchType.EAGER, mappedBy = "product")
+    private Inventory inventory;
+
     public Product() {
     }
 
@@ -50,5 +53,13 @@ public class Product {
 
     public void setPrice(Integer price) {
         this.price = price;
+    }
+
+    public Inventory getInventory() {
+        return inventory;
+    }
+
+    public void setInventory(Inventory inventory) {
+        this.inventory = inventory;
     }
 }
