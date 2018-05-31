@@ -3,6 +3,7 @@ package com.example.jinxiMall.controller;
 import com.example.jinxiMall.Repository.InventoryRepository;
 import com.example.jinxiMall.Repository.ProductRepository;
 import com.example.jinxiMall.entity.Product;
+import com.example.jinxiMall.exceptions.ItemNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.http.HttpHeaders;
@@ -35,18 +36,17 @@ public class ProductController {
     @PutMapping("{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void updateProduct(@PathVariable Long id, @RequestBody Product product) throws Exception {
-        productRepository.findById(id);
+        productRepository.findById(id).orElseThrow(() -> new ItemNotFoundException("product", id));
         productRepository.updateById(id, product.getName(), product.getDescription(), product.getPrice());
     }
 
     //根据商品id查找商品
     @GetMapping("{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Product getProduct(@PathVariable Long id) {
-        return productRepository.findProductById(id);
+    public Product getProduct(@PathVariable Long id) throws Exception {
+        return productRepository.findById(id).orElseThrow(() -> new ItemNotFoundException("product", id));
     }
-
-    //查找所有商品
+    
     //根据name和描述模糊查询
     //根据name查询
     @GetMapping
