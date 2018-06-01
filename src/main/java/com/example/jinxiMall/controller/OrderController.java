@@ -28,14 +28,11 @@ public class OrderController {
     @Autowired
     private InventoryRepository inventoryRepository;
     @Autowired
-    private DeliveryFormRepository logisticsRecordRepository;
-
-    public OrderController() {
-    }
+    private DeliveryFormRepository deliveryFormRepository;
 
     //创建新订单
     @PostMapping
-    public ResponseEntity<?> saveOrder(@RequestBody List<OrderForm> orderMsg)  {
+    public ResponseEntity<?> saveOrder(@RequestBody List<OrderForm> orderMsg) throws Exception {
         UserOrder order = new UserOrder();
         Long orderId = orderRepository.saveAndFlush(order).getId();
         String result = createProductSnaps(orderMsg, orderId);
@@ -52,8 +49,9 @@ public class OrderController {
     @PutMapping("{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public UserOrder updateOrderStatus(@PathVariable Long id, @RequestParam(value = "orderStatus", required = false, defaultValue = "unPaid") String orderStatus) throws Exception {
+        UserOrder order = orderRepository.findById(id).orElseThrow(() -> new ItemNotFoundException("order", id));
         if (orderStatus.equals("paid")) {
-            createLogisticsRecord(id);
+            createDeliveryForm(id);
         } else if (orderStatus.equals("withdrawn")) {
             unlockInventoriesByOrderId(id);
         }
@@ -129,8 +127,8 @@ public class OrderController {
         }
     }
 
-    private void createLogisticsRecord(Long orderId) {
-        DeliveryForm logisticsRecord = new DeliveryForm(orderId, "readyToShip");
-        logisticsRecordRepository.save(logisticsRecord);
+    private void createDeliveryForm(Long orderId) {
+        DeliveryForm deliveryForm = new DeliveryForm(orderId, "readyToShip");
+        deliveryFormRepository.save(deliveryForm);
     }
 }
