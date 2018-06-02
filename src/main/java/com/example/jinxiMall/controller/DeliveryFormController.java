@@ -7,6 +7,7 @@ import com.example.jinxiMall.Repository.ProductSnapRepository;
 import com.example.jinxiMall.entity.DeliveryForm;
 import com.example.jinxiMall.entity.ProductSnap;
 import com.example.jinxiMall.exceptions.ItemNotFoundException;
+import com.example.jinxiMall.exceptions.LogisticsAlreadyShippedOrSignedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.http.HttpStatus;
@@ -40,13 +41,19 @@ public class DeliveryFormController {
     @PutMapping("{id}/orders/{orderId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void updateOrderStatus(@PathVariable Long id, @PathVariable Long orderId, @RequestParam String logisticsStatus) throws Exception {
-       DeliveryForm deliveryForm = deliveryFormRepository.findByIdAndOrderId(id, orderId);
+        DeliveryForm deliveryForm = deliveryFormRepository.findByIdAndOrderId(id, orderId);
         String nowDate = String.valueOf(new Date(System.currentTimeMillis()));
         if (deliveryForm == null) {
             throw new ItemNotFoundException("logisticsRecord", "logisticsId", id, "orderId", orderId);
         }
         final boolean isLogisticsAlreadyShippedOrSigned = deliveryForm.getLogisticsStatus().equals("shipping") || deliveryForm.getLogisticsStatus().equals("signed");
-        if (logisticsStatus.equals("signed")) {
+        if (logisticsStatus.equals("shipping") && isLogisticsAlreadyShippedOrSigned) {
+            throw new LogisticsAlreadyShippedOrSignedException(id, deliveryForm.getLogisticsStatus());
+        } else if (logisticsStatus.equals("signed")) {
+            String result = checkWhetherCanSignLogistics(deliveryForm);
+            if (!result.equals("success")) {
+                throw new LogisticsAlreadyShippedOrSignedException(result);
+            }
             updateOrderStatusAndInventories(orderId, nowDate);
         }
         updateLogisticsStatus(logisticsStatus, id, orderId, nowDate);
