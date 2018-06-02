@@ -7,7 +7,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
-import java.util.Optional;
 
 @Repository
 public interface DeliveryFormRepository extends JpaRepository<DeliveryForm, Long> {
@@ -17,9 +16,6 @@ public interface DeliveryFormRepository extends JpaRepository<DeliveryForm, Long
 
     //根据物流Id和订单id查询订单
     DeliveryForm findByIdAndOrderId(Long id, Long orderId);
-
-    //根据订单Id查找物流
-    DeliveryForm findDeliveryFormById(Long id);
 
     //修改物流发货状态
     @Modifying

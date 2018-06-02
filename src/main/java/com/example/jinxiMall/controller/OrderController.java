@@ -4,6 +4,7 @@ import com.example.jinxiMall.Repository.*;
 import com.example.jinxiMall.entity.*;
 import com.example.jinxiMall.exceptions.InventoryOutOfBoundException;
 import com.example.jinxiMall.exceptions.ItemNotFoundException;
+import com.example.jinxiMall.exceptions.OrderStatusConflictException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.http.HttpHeaders;
@@ -50,6 +51,9 @@ public class OrderController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public UserOrder updateOrderStatus(@PathVariable Long id, @RequestParam(value = "orderStatus", required = false, defaultValue = "unPaid") String orderStatus) throws Exception {
         UserOrder order = orderRepository.findById(id).orElseThrow(() -> new ItemNotFoundException("order", id));
+        if (!isThisOrderAlreadyBeenPaidOrWithdrawnOrFinished(order, orderStatus)) {
+            throw new OrderStatusConflictException(id, order.getStatus());
+        }
         if (orderStatus.equals("paid")) {
             createDeliveryForm(id);
         } else if (orderStatus.equals("withdrawn")) {
