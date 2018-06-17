@@ -28,7 +28,7 @@ CREATE TABLE `DeliveryForm` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `orderId` int(10) NOT NULL DEFAULT '0',
   `logisticsStatus` varchar(20) NOT NULL DEFAULT '',
-  `outboundTime` varchar(40) NOT NULL DEFAULT 'null',
+  `sendTime` varchar(40) NOT NULL DEFAULT 'null',
   `signedTime` varchar(40) NOT NULL DEFAULT 'null',
   `deliveryMan` varchar(30) NOT NULL DEFAULT '',
   PRIMARY KEY (`id`)

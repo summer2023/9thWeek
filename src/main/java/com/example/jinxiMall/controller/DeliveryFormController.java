@@ -41,7 +41,7 @@ public class DeliveryFormController {
     @PutMapping("{id}/orders/{orderId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void updateOrderStatus(@PathVariable Long id, @PathVariable Long orderId, @RequestParam String logisticsStatus) throws Exception {
-        DeliveryForm deliveryForm = deliveryFormRepository.findByIdAndOrderId(id, orderId);
+        DeliveryForm deliveryForm = deliveryFormRepository.findDeliveryFormByIdAndOrderId(id, orderId);
         String nowDate = String.valueOf(new Date(System.currentTimeMillis()));
         if (deliveryForm == null) {
             throw new ItemNotFoundException("logisticsRecord", "logisticsId", id, "orderId", orderId);
@@ -66,9 +66,9 @@ public class DeliveryFormController {
 
     private void updateLogisticsStatus(String logisticsStatus, Long id, Long orderId, String nowDate) {
         if (logisticsStatus.equals("shipping")) {
-            deliveryFormRepository.updateStatusWithShipping(id, orderId, nowDate);
+            deliveryFormRepository.updateLogisticsStatusWithShipping(id, orderId, nowDate);
         } else if (logisticsStatus.equals("signed")) {
-            deliveryFormRepository.updateStatusWithSigned(id, orderId, nowDate);
+            deliveryFormRepository.updateLogisticsStatusWithSigned(id, orderId, nowDate);
         }
 
     }

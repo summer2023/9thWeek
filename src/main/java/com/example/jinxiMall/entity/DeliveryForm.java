@@ -2,12 +2,13 @@ package com.example.jinxiMall.entity;
 
 import javax.persistence.*;
 
+@Entity
 public class DeliveryForm {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Long orderId;
-    private String signedStatus;
+    private String logisticsStatus;
     private String sendTime;
     private String signedTime;
     private String deliveryMan = "X师傅";
@@ -19,9 +20,9 @@ public class DeliveryForm {
     public DeliveryForm() {
     }
 
-    public DeliveryForm(Long orderId, String signedStatus) {
+    public DeliveryForm(Long orderId, String logisticsStatus) {
         this.orderId = orderId;
-        this.signedStatus = signedStatus;
+        this.logisticsStatus = logisticsStatus;
         this.sendTime = "null";
         this.signedTime = "null";
     }
@@ -39,11 +40,11 @@ public class DeliveryForm {
     }
 
     public String getLogisticsStatus() {
-        return signedStatus;
+        return logisticsStatus;
     }
 
     public void setLogisticsStatus(String logisticsStatus) {
-        this.signedStatus = logisticsStatus;
+        this.logisticsStatus = logisticsStatus;
     }
 
     public String getSendTime() {
