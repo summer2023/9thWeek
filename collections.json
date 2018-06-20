@@ -1,0 +1,746 @@
+{
+	"info": {
+		"_postman_id": "850f2a85-5d3b-4844-9fa1-2aa347fb9d5f",
+		"name": "JinxiMall",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "查看商品",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var responseJSON;",
+							"  ",
+							"try { ",
+							"    responseJSON = JSON.parse(responseBody); ",
+							"    tests['response is valid JSON'] = true;",
+							"}",
+							"catch (e) { ",
+							"    responseJSON = {}; ",
+							"    tests['response is valid JSON'] = false;",
+							"}",
+							"",
+							"tests[\"Reponse data is array\"] = _.isArray(responseJSON);",
+							"tests['response matches the data sent in request'] = (responseJSON && responseJSON.length > 0);",
+							"tests[\"Status code is 200\"] = responseCode.code === 200;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "localhost:8083/products",
+					"host": [
+						"localhost"
+					],
+					"port": "8083",
+					"path": [
+						"products"
+					]
+				},
+				"description": "### API功能：\\n- 查找所有商品信息\\n\\n### 输入：空\\n### 输出：\\n```\\n{\\n    body:\\n    [\\n\\t    {\\n\\t        \\\"id\\\": 1,\\n\\t        \\\"name\\\": \\\"test666\\\",\\n\\t        \\\"description\\\": \\\"test\\\",\\n\\t        \\\"price\\\": 1000,\\n\\t        \\\"inventory\\\": {\\n\\t            \\\"id\\\": 1,\\n\\t            \\\"count\\\": 113,\\n\\t            \\\"lockedCount\\\": 107\\n\\t        }\\n\\t    },\\n\\t    {\\n\\t        \\\"id\\\": 2,\\n\\t        \\\"name\\\": \\\"方便面\\\",\\n\\t        \\\"description\\\": \\\"康师傅\\\",\\n\\t        \\\"price\\\": 5,\\n\\t        \\\"inventory\\\": {\\n\\t            \\\"id\\\": 2,\\n\\t            \\\"count\\\": 100,\\n\\t            \\\"lockedCount\\\": 86\\n\\t        }\\n\\t    },\\n\\t    {\\n\\t        \\\"id\\\": 3,\\n\\t        \\\"name\\\": \\\"农夫山泉\\\",\\n\\t        \\\"description\\\": \\\"矿泉水\\\",\\n\\t        \\\"price\\\": 3,\\n\\t        \\\"inventory\\\": {\\n\\t            \\\"id\\\": 3,\\n\\t            \\\"count\\\": 100,\\n\\t            \\\"lockedCount\\\": 85\\n\\t        }\\n\\t    }\\n\\t],\\n    \\\"status\\\":200\\n}\\n```"
+			},
+			"response": []
+		},
+		{
+			"name": "修改商品信息",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 204\"] = responseCode.code === 204;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"name\":\"test666\",\"description\":\"test\",\"price\":\"100\"}"
+				},
+				"url": {
+					"raw": "localhost:8083/products/1",
+					"host": [
+						"localhost"
+					],
+					"port": "8083",
+					"path": [
+						"products",
+						"1"
+					]
+				},
+				"description": "创建新商品"
+			},
+			"response": []
+		},
+		{
+			"name": "创建新商品",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"",
+							"tests[\"Status code is 201\"] = responseCode.code === 201;",
+							"",
+							"tests[\"response headers have location sent as part of request\"] = postman.getResponseHeader(\"location\");"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"name\":\"test8\",\"description\":\"test\",\"price\":\"100\"}"
+				},
+				"url": {
+					"raw": "localhost:8083/products",
+					"host": [
+						"localhost"
+					],
+					"port": "8083",
+					"path": [
+						"products"
+					]
+				},
+				"description": "创建新商品"
+			},
+			"response": []
+		},
+		{
+			"name": "根据id查找商品",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var responseJSON;",
+							"  ",
+							"try { ",
+							"    responseJSON = JSON.parse(responseBody); ",
+							"    tests['response is valid JSON'] = true;",
+							"}",
+							"catch (e) { ",
+							"    responseJSON = {}; ",
+							"    tests['response is valid JSON'] = false;",
+							"}",
+							"",
+							"tests[\"Reponse data is object\"] = _.isObject(responseJSON);",
+							"tests['response has id'] = _.has(responseJSON, 'id');",
+							"tests['response has totalPrice'] = _.has(responseJSON, 'name');",
+							"tests['response has userId'] = _.has(responseJSON, 'description');",
+							"tests['response has createTime'] = _.has(responseJSON, 'price');",
+							"tests['response has purchaseItemList'] = _.has(responseJSON, 'inventory');",
+							"tests[\"Status code is 200\"] = responseCode.code === 200;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"name\":\"test8\",\"description\":\"test\",\"price\":\"100\"}"
+				},
+				"url": {
+					"raw": "localhost:8083/products/1",
+					"host": [
+						"localhost"
+					],
+					"port": "8083",
+					"path": [
+						"products",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "根据name查找商品",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var responseJSON;",
+							"  ",
+							"try { ",
+							"    responseJSON = JSON.parse(responseBody); ",
+							"    tests['response is valid JSON'] = true;",
+							"}",
+							"catch (e) { ",
+							"    responseJSON = {}; ",
+							"    tests['response is valid JSON'] = false;",
+							"}",
+							"",
+							"tests[\"Reponse data is array\"] = _.isArray(responseJSON);",
+							"tests['response matches the data sent in request'] = (responseJSON && responseJSON.length > 0);",
+							"tests[\"Status code is 200\"] = responseCode.code === 200;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"name\":\"test8\",\"description\":\"test\",\"price\":\"100\"}"
+				},
+				"url": {
+					"raw": "localhost:8083/products?name=test666",
+					"host": [
+						"localhost"
+					],
+					"port": "8083",
+					"path": [
+						"products"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "test666"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "模糊查找商品",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var responseJSON;",
+							"  ",
+							"try { ",
+							"    responseJSON = JSON.parse(responseBody); ",
+							"    tests['response is valid JSON'] = true;",
+							"}",
+							"catch (e) { ",
+							"    responseJSON = {}; ",
+							"    tests['response is valid JSON'] = false;",
+							"}",
+							"",
+							"tests[\"Reponse data is array\"] = _.isArray(responseJSON);",
+							"tests['response matches the data sent in request'] = (responseJSON && responseJSON.length > 0);",
+							"tests[\"Status code is 200\"] = responseCode.code === 200;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[{\"productId\":\"1\",\"purchaseCount\":\"3\"},{\"productId\":\"2\",\"purchaseCounT\":\"1\"},{\"productId\":\"3\",\"purchaseCounT\":\"5\"}]"
+				},
+				"url": {
+					"raw": "localhost:8083/products?name=noodles&description=coca",
+					"host": [
+						"localhost"
+					],
+					"port": "8083",
+					"path": [
+						"products"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "noodles"
+						},
+						{
+							"key": "description",
+							"value": "coca"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "创建订单",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "0a27f06e-7885-4182-86f2-90286983c091",
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"response headers have location sent as part of request\"] = postman.getResponseHeader('location'),",
+							"tests[\"Status code is 201\"] = responseCode.code === 201;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[{\"productId\":1,\"purchaseCount\":3},{\"productId\":2,\"purchaseCount\":1},{\"productId\":3,\"purchaseCount\":5}]"
+				},
+				"url": {
+					"raw": "localhost:8083/orders",
+					"host": [
+						"localhost"
+					],
+					"port": "8083",
+					"path": [
+						"orders"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "支付订单",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "db46d93c-7ac3-45b9-b47f-3086a5ce09ec",
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 204\"] = responseCode.code === 204;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "localhost:8083/orders/2?orderStatus=paid",
+					"host": [
+						"localhost"
+					],
+					"port": "8083",
+					"path": [
+						"orders",
+						"2"
+					],
+					"query": [
+						{
+							"key": "orderStatus",
+							"value": "paid"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "查看订单信息",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var responseJSON;",
+							"",
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"",
+							"try { ",
+							"    responseJSON = JSON.parse(responseBody); ",
+							"    tests['response is valid JSON'] = true;",
+							"}",
+							"catch (e) { ",
+							"    responseJSON = {}; ",
+							"    tests['response is valid JSON'] = false;",
+							"}",
+							"",
+							"tests[\"Reponse data is object\"] = _.isObject(responseJSON);",
+							"tests['response has id'] = _.has(responseJSON, 'id');",
+							"tests['response has totalPrice'] = _.has(responseJSON, 'totalPrice');",
+							"tests['response has userId'] = _.has(responseJSON, 'userId');",
+							"tests['response has createTime'] = _.has(responseJSON, 'createTime');",
+							"tests['response has purchaseItemList'] = _.has(responseJSON, 'purchaseItemList');"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "localhost:8083/orders/1",
+					"host": [
+						"localhost"
+					],
+					"port": "8083",
+					"path": [
+						"orders",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "撤销订单",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "1dc09b2f-e117-4a63-b17f-37594fdc527b",
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 204\"] = responseCode.code === 204;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "localhost:8083/orders/3?orderStatus=withdrawn",
+					"host": [
+						"localhost"
+					],
+					"port": "8083",
+					"path": [
+						"orders",
+						"3"
+					],
+					"query": [
+						{
+							"key": "orderStatus",
+							"value": "withdrawn"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "用户Id查看订单",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var responseJSON;",
+							"",
+							"try { ",
+							"    responseJSON = JSON.parse(responseBody); ",
+							"    tests['response is valid JSON'] = true;",
+							"}",
+							"catch (e) { ",
+							"    responseJSON = {}; ",
+							"    tests['response is valid JSON'] = false;",
+							"}",
+							"tests[\"Reponse data is array\"] = _.isArray(responseJSON);",
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"tests['response matches the data sent in request'] = (responseJSON && responseJSON.length > 0);"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "localhost:8083/orders?userId=1",
+					"host": [
+						"localhost"
+					],
+					"port": "8083",
+					"path": [
+						"orders"
+					],
+					"query": [
+						{
+							"key": "userId",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Id查看快递信息",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var responseJSON;",
+							"  ",
+							"try { ",
+							"    responseJSON = JSON.parse(responseBody); ",
+							"    tests['response is valid JSON'] = true;",
+							"}",
+							"catch (e) { ",
+							"    responseJSON = {}; ",
+							"    tests['response is valid JSON'] = false;",
+							"}",
+							"",
+							"tests[\"Reponse data is object\"] = _.isObject(responseJSON);",
+							"tests['response has id'] = _.has(responseJSON, 'id');",
+							"tests['response has totalPrice'] = _.has(responseJSON, 'deliveryMan');",
+							"tests['response has userId'] = _.has(responseJSON, 'sendTime');",
+							"tests['response has createTime'] = _.has(responseJSON, 'signedTime');",
+							"tests['response has purchaseItemList'] = _.has(responseJSON, 'logisticsStatus');",
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"name\":\"test666\",\"description\":\"test\",\"price\":\"100\"}"
+				},
+				"url": {
+					"raw": "localhost:8083/deliveryForms/1",
+					"host": [
+						"localhost"
+					],
+					"port": "8083",
+					"path": [
+						"deliveryForms",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "发货",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "26207a19-5051-47e4-91e9-03a7c9a4f06b",
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 204\"] = responseCode.code === 204;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"name\":\"test666\",\"description\":\"test\",\"price\":\"100\"}"
+				},
+				"url": {
+					"raw": "localhost:8083/deliveryForms/1/orders/1?logisticsStatus=shipping",
+					"host": [
+						"localhost"
+					],
+					"port": "8083",
+					"path": [
+						"deliveryForms",
+						"1",
+						"orders",
+						"1"
+					],
+					"query": [
+						{
+							"key": "logisticsStatus",
+							"value": "shipping"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "签收货物",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "a3f8abe4-6195-46a3-ab5f-b98e39370a80",
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 204\"] = responseCode.code === 204;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"name\":\"test666\",\"description\":\"test\",\"price\":\"100\"}"
+				},
+				"url": {
+					"raw": "localhost:8083/deliveryForms/1/orders/1?logisticsStatus=signed",
+					"host": [
+						"localhost"
+					],
+					"port": "8083",
+					"path": [
+						"deliveryForms",
+						"1",
+						"orders",
+						"1"
+					],
+					"query": [
+						{
+							"key": "logisticsStatus",
+							"value": "signed"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "修改库存数量",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 200\"] = responseCode.code === 204;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"count\":\"10\"}"
+				},
+				"url": {
+					"raw": "localhost:8083/inventories/1",
+					"host": [
+						"localhost"
+					],
+					"port": "8083",
+					"path": [
+						"inventories",
+						"1"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

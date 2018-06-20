@@ -18,7 +18,7 @@ import java.util.List;
 
 @RestController
 @EnableAutoConfiguration
-@RequestMapping("/logisticsRecords")
+@RequestMapping("/deliveryForms")
 public class DeliveryFormController {
     @Autowired
     private DeliveryFormRepository deliveryFormRepository;
