@@ -90,7 +90,7 @@ public class OrderController {
     }
 
     private HttpHeaders setLocationInHeaders(Long orderId) {
-        URI location = URI.create("http://192.168.56.1:8083/orders/" + orderId);
+        URI location = URI.create("http://218.192.170.216:8083/orders/" + orderId);
         HttpHeaders responseHeaders = new HttpHeaders();
         responseHeaders.setLocation(location);
         return responseHeaders;

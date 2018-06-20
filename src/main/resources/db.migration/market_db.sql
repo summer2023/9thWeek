@@ -55,7 +55,7 @@ CREATE TABLE `Product` (
 # Data for table "Product"
 #
 
-INSERT INTO `Product` VALUES (1,'test666','test',1000),(2,'方便面','test',20),(3,'方便面','康师傅',5),(4,'农夫山泉','矿泉水',3);
+INSERT INTO `Product` VALUES (1,'test666','test',1000),(2,'noodles','test',20),(3,'noodles','cocal',5),(4,'pureWater','water',3);
 
 #
 # Structure for table "ProductSnap"
@@ -76,7 +76,7 @@ CREATE TABLE `ProductSnap` (
 # Data for table "ProductSnap"
 #
 
-INSERT INTO `ProductSnap` VALUES (1,1,1,'test666','test','1000',3),(2,2,1,'方便面','test','20',1),(3,3,1,'方便面','康师傅','5',5),(4,1,2,'test666','test','1000',3),(5,2,2,'方便面','test','20',1),(6,3,2,'方便面','康师傅','5',5),(7,4,3,'农夫山泉','矿泉水','3',3),(8,2,3,'方便面','test','20',1),(9,3,3,'方便面','康师傅','5',5),(10,4,4,'农夫山泉','矿泉水','3',3),(11,2,4,'方便面','test','20',1),(12,3,4,'方便面','康师傅','5',5),(13,4,5,'农夫山泉','矿泉水','3',3),(14,2,5,'方便面','test','20',1),(15,3,5,'方便面','康师傅','5',5);
+INSERT INTO `ProductSnap` VALUES (1,1,1,'test666','test','1000',3),(2,2,1,'noodles','test','20',1),(3,3,1,'noodles','cocal','5',5),(4,1,2,'test666','test','1000',3),(5,2,2,'noodles','test','20',1),(6,3,2,'noodles','cocal','5',5),(7,4,3,'pureWater','water','3',3),(8,2,3,'noodles','test','20',1),(9,3,3,'noodles','cocal','5',5),(10,4,4,'pureWater','water','3',3),(11,2,4,'noodles','test','20',1),(12,3,4,'noodles','cocal','5',5),(13,4,5,'pureWater','water','3',3),(14,2,5,'noodles','test','20',1),(15,3,5,'noodles','cocal','5',5);
 
 #
 # Structure for table "UserOrder"

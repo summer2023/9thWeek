@@ -75,10 +75,10 @@ public class DeliveryFormController {
 
     private String checkWhetherCanSignLogistics(DeliveryForm deliveryForm) {
         if (deliveryForm.getLogisticsStatus().equals("readyToShip")) {
-            return "The logisticsRecord hasn't been shipped yet.";
+            return "The deliveryForm hasn't been shipped yet.";
         }
         if (deliveryForm.getLogisticsStatus().equals("signed")) {
-            return "The logisticsRecord has already been signed off.";
+            return "The deliveryForm has already been signed off.";
         }
         return "success";
     }
