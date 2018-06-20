@@ -551,6 +551,20 @@
 			"response": []
 		},
 		{
+			"name": "发货",
+			"request": {
+				"url": "http://{{IP}}:{{port}}/logisticsRecords/1/orders/1?logisticsStatus=shipping",
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"description": "### API功能\n- 根据物流订单Id修改物流状态为Shiping，\n- 同时将outboundTime(出库时间)修改为当前时间\n\n### 输入：空\n\n### 输出：\n```\n{\n\tstatus:204\n}\n```"
+			},
+			"response": []
+		},
+		{
 			"name": "Id查看快递信息",
 			"event": [
 				{
@@ -608,69 +622,35 @@
 			"response": []
 		},
 		{
-			"name": "发货",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "26207a19-5051-47e4-91e9-03a7c9a4f06b",
-						"type": "text/javascript",
-						"exec": [
-							"tests[\"Status code is 204\"] = responseCode.code === 204;"
-						]
-					}
-				}
-			],
+			"name": "签收货物",
 			"request": {
+				"url": "http://{{IP}}:{{port}}/logisticsRecords/1/orders/1?logisticsStatus=signed",
 				"method": "PUT",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					}
-				],
+				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\"name\":\"test666\",\"description\":\"test\",\"price\":\"100\"}"
+					"raw": ""
 				},
-				"url": {
-					"raw": "localhost:8083/deliveryForms/1/orders/1?logisticsStatus=shipping",
-					"host": [
-						"localhost"
-					],
-					"port": "8083",
-					"path": [
-						"deliveryForms",
-						"1",
-						"orders",
-						"1"
-					],
-					"query": [
-						{
-							"key": "logisticsStatus",
-							"value": "shipping"
-						}
-					]
-				}
+				"description": "### API功能\n- 根据物流订单Id修改物流状态为signed，\n- 同时修改signedTime(签收时间)为当前时间\n\n### 输入：空\n\n### 输出：\n```\n{\n\tstatus:204\n}\n```"
 			},
 			"response": []
 		},
 		{
-			"name": "签收货物",
+			"name": "查看库存",
 			"event": [
 				{
 					"listen": "test",
 					"script": {
-						"id": "a3f8abe4-6195-46a3-ab5f-b98e39370a80",
+						"id": "adabcde6-0aa7-43aa-aee9-d76bb34229b9",
 						"type": "text/javascript",
 						"exec": [
-							"tests[\"Status code is 204\"] = responseCode.code === 204;"
+							"tests[\"response headers have location sent as part of request\"]"
 						]
 					}
 				}
 			],
 			"request": {
-				"method": "PUT",
+				"method": "GET",
 				"header": [
 					{
 						"key": "Content-Type",
@@ -679,25 +659,16 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\"name\":\"test666\",\"description\":\"test\",\"price\":\"100\"}"
+					"raw": "[{\"productId\":1,\"purchaseCount\":3},{\"productId\":2,\"purchaseCount\":1},{\"productId\":3,\"purchaseCount\":5}]"
 				},
 				"url": {
-					"raw": "localhost:8083/deliveryForms/1/orders/1?logisticsStatus=signed",
+					"raw": "localhost:8083/inventories",
 					"host": [
 						"localhost"
 					],
 					"port": "8083",
 					"path": [
-						"deliveryForms",
-						"1",
-						"orders",
-						"1"
-					],
-					"query": [
-						{
-							"key": "logisticsStatus",
-							"value": "signed"
-						}
+						"inventories"
 					]
 				}
 			},
